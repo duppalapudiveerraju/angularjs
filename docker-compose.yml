@@ -1,0 +1,165 @@
+version: '2'
+services:
+  discovery-service:
+    image: discovery-service
+    ports:
+     - "8761:8761"
+    environment:
+     JAVA_OPTS: "-Xmx128m -Xms32m"
+  sap-endpoint-service:
+    image: sap-endpoint-service
+    depends_on:
+     - discovery-service
+    environment:
+     JAVA_OPTS: "-Xmx128m -Xms32m"
+  holiday-service:
+    image: holiday-service
+    depends_on:
+     - discovery-service
+    environment:
+     JAVA_OPTS: "-Xmx128m -Xms32m"
+    #deploy:
+      #mode: replicated
+      #replicas: 1
+  regularize-service:
+    image: regularize-service
+    depends_on:
+     - discovery-service
+    environment:
+     JAVA_OPTS: "-Xmx128m -Xms32m"
+  regularize-history-service:
+    image: regularize-history-service
+    depends_on:
+     - discovery-service
+    environment:
+     JAVA_OPTS: "-Xmx128m -Xms32m"
+  regularize-apply-service:
+    image: regularize-apply-service
+    depends_on:
+     - discovery-service
+    environment:
+     JAVA_OPTS: "-Xmx128m -Xms32m"
+  leave-service:
+    image: leave-service
+    depends_on:
+     - discovery-service
+    environment:
+     JAVA_OPTS: "-Xmx128m -Xms32m"
+  leave-history-service:
+    image: leave-history-service
+    depends_on:
+     - discovery-service
+    environment:
+     JAVA_OPTS: "-Xmx2g -Xms512m"
+  leave-apply-service:
+    image: leave-apply-service
+    depends_on:
+     - discovery-service
+    environment:
+     JAVA_OPTS: "-Xmx128m -Xms32m"
+  bookmark-service:
+    image: bookmark-service
+    depends_on:
+     - discovery-service
+    environment:
+     JAVA_OPTS: "-Xmx128m -Xms32m"
+  #leave-cancel-service:
+    #image: leave-cancel-service
+    #depends_on:
+      #- discovery-service
+     #environment:
+     # JAVA_OPTS: "-Xmx2g -Xms512m"
+  attendance-service:
+    image: attendance-service
+    depends_on:
+     - discovery-service
+    environment:
+     JAVA_OPTS: "-Xmx128m -Xms32m"
+  user-info-service:
+    image: user-info-service
+    depends_on:
+     - discovery-service
+    environment:
+     JAVA_OPTS: "-Xmx128m -Xms32m"
+  feedback-service:
+    image: feedback-service
+    depends_on:
+     - discovery-service
+    environment:
+     JAVA_OPTS: "-Xmx128m -Xms32m" 
+  bookmark-service:
+    image: bookmark-service
+    depends_on:
+     - discovery-service
+    environment:
+     JAVA_OPTS: "-Xmx128m -Xms32m" 
+  birthday-service:
+    image: birthday-service
+    depends_on:
+     - discovery-service
+    environment:
+     JAVA_OPTS: "-Xmx128m -Xms32m"
+  leave-pending-approval-service:
+    image: leave-pending-approval-service
+    depends_on:
+     - discovery-service
+    environment:
+     JAVA_OPTS: "-Xmx128m -Xms32m"
+  regularize-pending-approval-service:
+    image: regularize-pending-approval-service
+    depends_on:
+     - discovery-service
+    environment:
+     JAVA_OPTS: "-Xmx128m -Xms32m"
+  approval-service:
+    image: approval-service
+    depends_on:
+     - discovery-service
+    environment:
+     JAVA_OPTS: "-Xmx128m -Xms32m"
+  personal-info-service:
+    image: personal-info-service
+    depends_on:
+     - discovery-service
+    environment:
+     JAVA_OPTS: "-Xmx128m -Xms32m"
+  gateway-service:
+    image: gateway-service
+    depends_on:
+     - discovery-service
+    environment:
+     JAVA_OPTS: "-Xmx128m -Xms32m"
+    ports:
+     - "8765:8765"
+  zipkin-service:
+    image: zipkin-service
+    depends_on:
+     - discovery-service
+    environment:
+     JAVA_OPTS: "-Xmx1g -Xms512m"
+    ports:
+     - "9411:9411"
+#  configuration-service:
+#    image: configuration-service
+#    ports:
+#     - "9090:9090"
+#  elasticsearch:
+#    image: elasticsearch
+#    ports:
+#     - "9200:9200"
+#     - "9300:9300"
+#  kibana:
+#    image: kibana
+#    depends_on:
+#     - elasticsearch
+#    links:
+#     - elasticsearch:elasticsearch
+#    ports:
+#     - "5601:5601"
+#  docker run -d -it --name logstash --network=hrssmsfpilot_default  -p 5000:5000 logstash -e 'input { tcp { port => 5000 codec => "json" } } output { elasticsearch { hosts => ["localhost"] index => "micro-%{serviceName}"} }'
+#  logstash:
+#    image: logstash
+#    environment:
+#     - input { tcp { port => 5000 codec => "json" } } output { elasticsearch { hosts => ["192.168.99.100"] index => "micro-%{serviceName}"} }
+#    ports:
+#     - "5000:5000"
